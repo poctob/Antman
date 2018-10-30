@@ -1,0 +1,29 @@
+<form (ngSubmit) = 'onSubmit()'>
+  <p>
+    <mat-form-field>
+      <input matInput placeholder="Customer name" id='name'
+               required
+               [(ngModel)]="model.name" name="name"
+               #name="ngModel">
+    </mat-form-field>
+  </p>
+   <p>
+    <mat-form-field>
+      <input matInput placeholder="Email" id='email'
+               [(ngModel)]="model.email" name="email"
+               #email="ngModel">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field>
+      <input matInput placeholder="Phone" id='phone'
+               [(ngModel)]="model.phone" name="phone"
+               #phone="ngModel">
+    </mat-form-field>
+  </p>
+  
+
+  
+  <button mat-raised-button color="warn" type='cancel'>Cancel</button>
+  <button mat-raised-button color="primary" type='submit'>Save</button>
+</form>
