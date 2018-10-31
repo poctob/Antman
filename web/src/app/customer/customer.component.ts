@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Customer } from '../models/customer';
 
@@ -8,31 +8,13 @@ import { Customer } from '../models/customer';
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent {
 
-  model = new Customer(0, 'test', '123', 'eer');
+  constructor(public dialogRef: MatDialogRef<CustomerComponent>,
+    @Inject(MAT_DIALOG_DATA) public model: Customer) { }
 
-  // email = new FormControl('', [Validators.email]);
-  // name = new FormControl();
-  // phone = new FormControl('', [Validators.pattern('[0-9]{10}$')]);
-
-  // getEmailErrorMessage() {
-  //   return this.model.email.hasError('email') ? 'Not a valid email' :
-  //     '';
-  // }
-
-  // getPhoneErrorMessage() {
-  //   return this.model.phone.hasError('pattern') ? 'Not a valid phone' :
-  //     '';
-  // }
-
-  onSubmit() {
-    console.log('Submitted');
+  onCancelClick():void {
+    console.log('Cancelled');
+    this.dialogRef.close();
   }
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
 }

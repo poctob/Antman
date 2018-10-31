@@ -8,11 +8,13 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {MaterialModule} from './material-module';
 import { CustomerComponent } from './customer/customer.component';
+import { ProjectComponent } from './project/project.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CustomerComponent
+    CustomerComponent,
+    ProjectComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +24,7 @@ import { CustomerComponent } from './customer/customer.component';
     FormsModule,
     MaterialModule
   ],
+  entryComponents: [CustomerComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
