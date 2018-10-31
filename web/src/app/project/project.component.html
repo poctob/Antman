@@ -1,0 +1,15 @@
+<form>
+  <button mat-icon-button color="primary">
+    <mat-icon aria-label="new customer" (click)="onNewCustomerClick()">add_circle</mat-icon>
+  </button>
+  <mat-form-field>
+    <input type="text" placeholder="Select customer" aria-label="Customer" 
+      matInput [formControl]="customerControl"
+      [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let customer of filteredOptions | async" [value]="customer.name">
+        {{customer.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

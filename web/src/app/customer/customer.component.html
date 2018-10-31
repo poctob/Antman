@@ -1,29 +1,36 @@
-<form (ngSubmit) = 'onSubmit()'>
+<h1 mat-dialog-title>Add new customer</h1>
+<form #customerForm="ngForm" name="customerForm">
+<div mat-dialog-content>
   <p>
     <mat-form-field>
-      <input matInput placeholder="Customer name" id='name'
-               required
-               [(ngModel)]="model.name" name="name"
-               #name="ngModel">
+      <input matInput placeholder="Customer name" id='name' required [(ngModel)]="model.name" name="name" #name="ngModel">
     </mat-form-field>
   </p>
-   <p>
-    <mat-form-field>
-      <input matInput placeholder="Email" id='email'
-               [(ngModel)]="model.email" name="email"
-               #email="ngModel">
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field>
-      <input matInput placeholder="Phone" id='phone'
-               [(ngModel)]="model.phone" name="phone"
-               #phone="ngModel">
-    </mat-form-field>
-  </p>
-  
 
+  <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+    <div *ngIf="name.errors.required">
+      Name is required.
+    </div>
+  </div>
+
+  <p>
+    <mat-form-field>
+      <input matInput placeholder="Email" id='email' email [(ngModel)]="model.email" name="email" #email="ngModel">
+    </mat-form-field>
+  </p>
   
-  <button mat-raised-button color="warn" type='cancel'>Cancel</button>
-  <button mat-raised-button color="primary" type='submit'>Save</button>
+  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+      Email is invalid.
+  </div>
+
+  <p>
+    <mat-form-field>
+      <input matInput placeholder="Phone" id='phone' [(ngModel)]="model.phone" name="phone" #phone="ngModel">
+    </mat-form-field>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="!customerForm.valid" [mat-dialog-close]="model" cdkFocusInitial>Save</button>
+</div>
 </form>
