@@ -1,15 +1,127 @@
 <form>
-  <button mat-icon-button color="primary">
+  <button mat-icon-button color="primary" [disabled]="disableAddCustomer">
     <mat-icon aria-label="new customer" (click)="onNewCustomerClick()">add_circle</mat-icon>
   </button>
   <mat-form-field>
-    <input type="text" placeholder="Select customer" aria-label="Customer" 
-      matInput [formControl]="customerControl"
+    <input type="text" placeholder="Start typing customer name" aria-label="Customer" matInput [formControl]="customerControl"
       [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let customer of filteredOptions | async" [value]="customer.name">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCustomerSelectionChanged($event)" [displayWith]='displayCustomer' >
+      <mat-option *ngFor="let customer of filteredOptions | async" [value]="customer">
         {{customer.name}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+</form>
+<form #projectForm="ngForm" name="projectForm" *ngIf="customerSelected">
+  <mat-card>
+    <mat-card-header>Project details:</mat-card-header>
+    <mat-card-content>
+      <mat-grid-list cols="3" rowHeight="60px">
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Project Number" id='projectId' required [(ngModel)]="project.Id" name="projectId"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Project Type" id='projectType' required [(ngModel)]="project.type" name="projectType"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Document Type" id='documentType' [(ngModel)]="project.documentType" name="documentType"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="date" placeholder="Date Received" id='dateReceived' required [(ngModel)]="project.received"
+              name="dateReceived" #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="date" placeholder="Date Started" id='dateStarted' [(ngModel)]="project.started" name="dateStarted"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="date" placeholder="Date Mailed" id='dateMailed' [(ngModel)]="project.mailed" name="dateMailed"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Project Status" id='projectStatus' required [(ngModel)]="project.status" name="projectStatus"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="number" placeholder="Price" id='price' [(ngModel)]="project.price" name="price" #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="number" placeholder="Postage" id='postage' [(ngModel)]="project.postage" name="postage"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="number" placeholder="Discount" id='discount' [(ngModel)]="project.discount" name="discount"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="number" placeholder="Total" id='total' [(ngModel)]="project.total" name="total" #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="date" placeholder="Invoice Date" id='invoiceDate' [(ngModel)]="project.invoiceDate"
+              name="invoiceDate" #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput type="date" placeholder="Payment Date" id='paymentDate' [(ngModel)]="project.paymentDate"
+              name="paymentDate" #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Payment Type" id='paymentType' [(ngModel)]="project.paymentType" name="paymentType"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Translator" id='translator' [(ngModel)]="project.translator" name="translator"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Source Language" id='sourceLanguage' [(ngModel)]="project.sourceLanguage" name="sourceLanguage"
+              #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <input matInput placeholder="Destination Language" id='destinationLanguage' [(ngModel)]="project.destinationLanguage"
+              name="destinationLanguage" #name="ngModel">
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="model" cdkFocusInitial>Save</button>
+    </mat-card-actions>
+  </mat-card>
 </form>

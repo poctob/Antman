@@ -9,6 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {MaterialModule} from './material-module';
 import { CustomerComponent } from './customer/customer.component';
 import { ProjectComponent } from './project/project.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ProjectComponent } from './project/project.component';
     BrowserAnimationsModule,
     ReactiveFormsModule, 
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule
   ],
   entryComponents: [CustomerComponent],
   providers: [],

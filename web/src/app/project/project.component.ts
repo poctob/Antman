@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatAutocompleteSelectedEvent } from '@angular/material';
 import { Customer } from '../models/customer';
 import { CustomerComponent } from '../customer/customer.component';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Project } from '../models/project';
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-project',
@@ -14,25 +16,48 @@ import { map, startWith } from 'rxjs/operators';
 export class ProjectComponent implements OnInit {
 
   customerControl = new FormControl();
-  customers: Customer[] = new Array();
+  customers: Customer[];
   filteredOptions: Observable<Customer[]>;
+  disableAddCustomer: boolean = false;
+  customerSelected: boolean = false;
+  project: Project = new Project(
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null);
 
-  constructor(public newCustomerDialog: MatDialog) { }
+  constructor(public newCustomerDialog: MatDialog, private customerService: CustomerService) { }
 
   ngOnInit() {
-    this.customers.push(new Customer(1, 'test1', '', ''));
-    this.customers.push(new Customer(2, 'test2', '', ''));
-    this.customers.push(new Customer(3, 'test3', '', ''));
 
-    this.filteredOptions = this.customerControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+    this.customerService.getCustomers()
+      .subscribe((c) => {
+        this.customers = c;
+        this.filteredOptions = this.customerControl.valueChanges
+          .pipe(
+            startWith<string | Customer>(''),
+            map(value => typeof value === 'string' ? value : value.name),
+            map(name => this._filter(name))
+          );
+      });
+
   }
 
   onNewCustomerClick(): void {
-    console.log("New customer clicked!");
+    this.disableAddCustomer = true;
     const dialogRef = this.newCustomerDialog.open(CustomerComponent, {
       width: '250px',
       hasBackdrop: false,
@@ -40,9 +65,21 @@ export class ProjectComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.customers.push(result);
-      this.customerControl.setValue(result.name);
+      if (result) {
+        this.customers.push(result);
+        this.customerControl.setValue(result.name);
+      }
+      this.disableAddCustomer = false;
     })
+  }
+
+  onCustomerSelectionChanged(event: MatAutocompleteSelectedEvent) {
+    console.log(event.option.value);
+    this.customerSelected = true;
+  }
+
+  displayCustomer(customer?: Customer): string | undefined {
+    return customer ? customer.name : undefined;
   }
 
   private _filter(value: string): Customer[] {

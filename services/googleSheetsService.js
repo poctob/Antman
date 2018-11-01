@@ -8,19 +8,17 @@ module.exports = class GoogleDocsService {
 
     constructor() {  }
 
-    async readSheet() {
+    async readSheet(sheetId) {
         try {
             let authService = new AuthService();
             let auth = await authService.authorize(
                 'configuration/credentials.sheets.json',
                 'token.sheets.json', ['https://www.googleapis.com/auth/spreadsheets']);
 
-            let data = await this.getMaxProjectNumber(
+            let data = await this.readNotNullValuesSheet(
                 auth,
-                '1bzrksuCuxytcKbwz_q-g9oEJpieLa8EuacmvEtlld2c',
+                sheetId,
                 '2018');
-
-            console.log(data);
 
             return data;
         }
@@ -51,6 +49,36 @@ module.exports = class GoogleDocsService {
             }
             else {
                 return true;
+            }
+        }
+        catch (err) {
+            return 'The API returned an error: ' + err;
+        }
+    }
+
+    async readNotNullValuesSheet(auth, documentId, sheetId) {
+        const sheets = google.sheets({ version: 'v4', auth });
+        const sheetsGetValues = promisify(sheets.spreadsheets.values.get);
+
+        try {
+            let result = await sheetsGetValues({
+                spreadsheetId: documentId,
+                range: sheetId + '!A2:T'
+            });
+
+            const rows = result.data.values;
+            if (rows.length) {
+
+                let projects = rows                   
+                    .filter(r => r[0] !== undefined);
+
+
+
+                return projects;
+            }
+            else {
+                console.log('No data found.');
+                return null;
             }
         }
         catch (err) {

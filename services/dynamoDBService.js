@@ -43,10 +43,19 @@ module.exports = class DynamoDBService {
         });
     }
 
-    async getAll(tableName) {
+    async getAll(tableName, projection, expressionAttributeNames) {
         let params = {
             TableName: tableName
         };
+
+        if(projection) {
+            params.ProjectionExpression = projection;
+        }
+
+        if(expressionAttributeNames) {
+            params.ExpressionAttributeNames = expressionAttributeNames;
+        }
+        ///console.log(params);
         
         let data = null;
         
@@ -67,6 +76,19 @@ module.exports = class DynamoDBService {
             
         } catch (err) {
             console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+        }
+    }
+
+    async query(params) {
+        
+        let data = null;
+        
+        try {
+            data = await docClient.query(params).promise();
+            return data.Items;
+            
+        } catch (err) {
+            console.error("Unable to query the table. Error JSON:", JSON.stringify(err, null, 2));
         }
     }
 }

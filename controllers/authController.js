@@ -17,8 +17,10 @@ const service = new DynamoDBService();
 //     });
 
 async function run() {
-    let data = await service.getAll('XTProjects');
-    console.log(data);
+    let data = await service.getAll('XTCustomers');
+    let items = data.Items;
+    items.forEach(x => console.log(x.projects));
+    //console.log(items);
 }
 
 run();

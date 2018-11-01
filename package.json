@@ -9,11 +9,12 @@
     "@angular/animations": "^7.0.1",
     "@angular/cdk": "^7.0.2",
     "@angular/material": "^7.0.2",
-    "aws-sdk": "^2.341.0",
+    "aws-sdk": "^2.346.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "googleapis": "^27.0.0",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "uuid": "^3.3.2"
   }
 }
