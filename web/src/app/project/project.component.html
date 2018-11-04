@@ -1,17 +1,8 @@
-<form>
   <button mat-icon-button color="primary" [disabled]="disableAddCustomer">
     <mat-icon aria-label="new customer" (click)="onNewCustomerClick()">add_circle</mat-icon>
-  </button>
-  <mat-form-field>
-    <input type="text" placeholder="Start typing customer name" aria-label="Customer" matInput [formControl]="customerControl"
-      [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCustomerSelectionChanged($event)" [displayWith]='displayCustomer' >
-      <mat-option *ngFor="let customer of filteredOptions | async" [value]="customer">
-        {{customer.name}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
+  </button><ng-select [items]="customers" [(ngModel)]="selectedCustomer" bindLabel="name"
+  placeholder="Select customer: " (change)="onCustomerSelectionChanged($event)"></ng-select>
+
 <form #projectForm="ngForm" name="projectForm" *ngIf="customerSelected">
   <mat-card>
     <mat-card-header>Project details:</mat-card-header>
@@ -120,7 +111,7 @@
       </mat-grid-list>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
+      <button mat-raised-button color="warn" (click)="onProjectCancelClick()">Cancel</button>
       <button mat-raised-button color="primary" [mat-dialog-close]="model" cdkFocusInitial>Save</button>
     </mat-card-actions>
   </mat-card>

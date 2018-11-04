@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,12 +11,18 @@ import {MaterialModule} from './material-module';
 import { CustomerComponent } from './customer/customer.component';
 import { ProjectComponent } from './project/project.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MainnavComponent } from './mainnav/mainnav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
+import { CustomersTableComponent } from './customers-table/customers-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerComponent,
-    ProjectComponent
+    ProjectComponent,
+    MainnavComponent,
+    CustomersTableComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +31,17 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule, 
     FormsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    NgSelectModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   entryComponents: [CustomerComponent],
   providers: [],

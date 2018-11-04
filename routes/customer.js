@@ -5,5 +5,6 @@ var Controller = require('../controllers/customerController');
 const controller = new Controller();
 
 router.get('/', controller.getAll);
+router.post('/', controller.create);
 
 module.exports = router;

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Project } from '../models/project';
 import { CustomerService } from '../customer.service';
+import { CustomersTableItem } from '../customers-table/customers-table-datasource';
 
 @Component({
   selector: 'app-project',
@@ -14,10 +15,7 @@ import { CustomerService } from '../customer.service';
   styleUrls: ['./project.component.css']
 })
 export class ProjectComponent implements OnInit {
-
-  customerControl = new FormControl();
-  customers: Customer[];
-  filteredOptions: Observable<Customer[]>;
+  customers: CustomersTableItem[];
   disableAddCustomer: boolean = false;
   customerSelected: boolean = false;
   project: Project = new Project(
@@ -38,21 +36,14 @@ export class ProjectComponent implements OnInit {
     null,
     null,
     null);
+    selectedCustomer: Customer;
 
   constructor(public newCustomerDialog: MatDialog, private customerService: CustomerService) { }
 
   ngOnInit() {
 
     this.customerService.getCustomers()
-      .subscribe((c) => {
-        this.customers = c;
-        this.filteredOptions = this.customerControl.valueChanges
-          .pipe(
-            startWith<string | Customer>(''),
-            map(value => typeof value === 'string' ? value : value.name),
-            map(name => this._filter(name))
-          );
-      });
+      .subscribe(c => this.customers = c );
 
   }
 
@@ -66,26 +57,22 @@ export class ProjectComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.customers.push(result);
-        this.customerControl.setValue(result.name);
+        this.customerService.createCustomer(result)
+        .subscribe(result => console.log(result));
+
+        this.customers = [...this.customers, result];
+        this.selectedCustomer = result;
       }
       this.disableAddCustomer = false;
     })
   }
 
-  onCustomerSelectionChanged(event: MatAutocompleteSelectedEvent) {
-    console.log(event.option.value);
-    this.customerSelected = true;
+  onCustomerSelectionChanged($event) {
+    this.customerSelected = !!($event);
   }
 
   displayCustomer(customer?: Customer): string | undefined {
     return customer ? customer.name : undefined;
-  }
-
-  private _filter(value: string): Customer[] {
-    const filterValue = value.toLowerCase();
-    return this.customers
-      .filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
 }
