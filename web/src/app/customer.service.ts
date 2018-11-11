@@ -20,4 +20,8 @@ export class CustomerService {
   createCustomer(data:CustomersTableItem ): Observable<CustomersTableItem> {
     return this.httpClient.post<CustomersTableItem>(this.url, data);
   }
+  
+  updateCustomer(data:CustomersTableItem ): Observable<CustomersTableItem> {
+    return this.httpClient.put<CustomersTableItem>(this.url, data);
+  }
 }

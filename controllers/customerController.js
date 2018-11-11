@@ -7,8 +7,9 @@ const service = new DynamoDBService();
 module.exports = class ProcessController {
 
   constructor() {
-     this.create = this.create.bind(this);
-     this.sanitizeCustomer = this.sanitizeCustomer.bind(this);
+    this.create = this.create.bind(this);
+    this.update = this.update.bind(this);
+    this.sanitizeCustomer = this.sanitizeCustomer.bind(this);
   }
 
   async getAll(req, res, next) {
@@ -35,6 +36,21 @@ module.exports = class ProcessController {
       await service.writeTableData('XTCustomers', customer)
       res.send(customer);
     } catch (err) {
+      console.log('Error processing the request: ' + err);
+      res.status(500).end();
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+      let customer = req.body;
+      this.sanitizeCustomer(customer);
+
+      await service.writeTableData('XTCustomers', customer)
+      res.send(customer);
+
+    } catch (err) {
+
       console.log('Error processing the request: ' + err);
       res.status(500).end();
     }

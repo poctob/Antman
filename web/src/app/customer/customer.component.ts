@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Customer } from '../models/customer';
+import { CustomersTableItem } from '../customers-table/customers-table-datasource';
 
 @Component({
   selector: 'app-customer',
@@ -10,8 +11,16 @@ import { Customer } from '../models/customer';
 })
 export class CustomerComponent {
 
+  public dialogTitle: string;
+
   constructor(public dialogRef: MatDialogRef<CustomerComponent>,
-    @Inject(MAT_DIALOG_DATA) public model: Customer) { }
+    @Inject(MAT_DIALOG_DATA) public model: CustomersTableItem) {
+      if(model && model.CustomerId) {
+        this.dialogTitle = 'Edit Customer';
+      } else {
+        this.dialogTitle = 'New Customer';
+      }
+     }
 
   onCancelClick():void {
     console.log('Cancelled');

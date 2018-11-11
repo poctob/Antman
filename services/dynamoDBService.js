@@ -43,6 +43,26 @@ module.exports = class DynamoDBService {
         });
     }
 
+     async updateTableData(tableName, key, updateExpression, expressionAttributeValues) {
+
+        let params = {
+            TableName: tableName,
+            Key: key,
+            UpdateExpression: updateExpression,
+            ExExpressionAttributeValues: expressionAttributeValues,
+            ReturnValues:"ALL_NEW"
+        };
+
+        docClient.update(params, function(err, data) {
+            if (err) {
+                console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+            }
+            else {
+                console.log("Updated item:", JSON.stringify(data, null, 2));
+            }
+        });
+    }
+
     async getAll(tableName, projection, expressionAttributeNames) {
         let params = {
             TableName: tableName
