@@ -15,7 +15,23 @@ module.exports = class ProjectController {
   async getAll(req, res, next) {
     try {
 
-      let data = await service.getAll('XTCustomers', 'CustomerId, #name, projects', {'#name': "name"});
+      let data = await service.getAll('XTCustomers', 'CustomerId, #name, projects', { '#name': "name" });
+      res.send(data.Items);
+    }
+    catch (err) {
+      console.log('Error processing the request: ' + err);
+      res.status(500).end();
+    }
+  }
+
+  async getByCustomerId(req, res, next) {
+    try {
+      let data = await service.getAll(
+        'XTCustomers', 
+        'CustomerId, #name, projects', 
+        { '#name': "name" },
+        'CustomerId = :customerId',
+        {':customerId' : req.params.customerId});
       res.send(data.Items);
     }
     catch (err) {

@@ -11,7 +11,11 @@ export class ProjectService {
   private url = 'api/project';
   constructor(private httpClient: HttpClient) { }
 
-  getCustomers(): Observable<CustomerProjects[]> {
+  getProjects(): Observable<CustomerProjects[]> {
     return this.httpClient.get<CustomerProjects[]>(this.url);
+  }
+
+  getProjectByCustomerId(customerId: string): Observable<CustomerProjects[]> {
+    return this.httpClient.get<CustomerProjects[]>(this.url + '/' + customerId);
   }
 }

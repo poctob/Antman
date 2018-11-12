@@ -6,6 +6,7 @@ import { ProjectsTableComponent } from './projects-table/projects-table.componen
 const routes: Routes = [
   { path: 'customers', component: CustomersTableComponent},
   { path: 'projects', component: ProjectsTableComponent},
+  { path: 'projects/:customerId', component: ProjectsTableComponent},
   { path: '**', component: ProjectsTableComponent}
 ];
 
