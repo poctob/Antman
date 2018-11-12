@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatAutocompleteSelectedEvent } from '@angular/material';
-import { Customer } from '../models/customer';
+import { MatDialog } from '@angular/material';
 import { CustomerComponent } from '../customer/customer.component';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { Project } from '../models/project';
-import { CustomerService } from '../customer.service';
-import { CustomersTableItem } from '../customers-table/customers-table-datasource';
+import { CustomerService } from '../services/customer.service';
+import { CustomersTableItem } from '../models/customer';
 
 @Component({
   selector: 'app-project',
@@ -18,25 +13,7 @@ export class ProjectComponent implements OnInit {
   customers: CustomersTableItem[];
   disableAddCustomer: boolean = false;
   customerSelected: boolean = false;
-  project: Project = new Project(
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null);
-    selectedCustomer: Customer;
+ 
 
   constructor(public newCustomerDialog: MatDialog, private customerService: CustomerService) { }
 
@@ -52,7 +29,6 @@ export class ProjectComponent implements OnInit {
     const dialogRef = this.newCustomerDialog.open(CustomerComponent, {
       width: '250px',
       hasBackdrop: false,
-      data: new Customer(4, null, null, null)
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -61,7 +37,6 @@ export class ProjectComponent implements OnInit {
         .subscribe(result => console.log(result));
 
         this.customers = [...this.customers, result];
-        this.selectedCustomer = result;
       }
       this.disableAddCustomer = false;
     })
@@ -71,8 +46,6 @@ export class ProjectComponent implements OnInit {
     this.customerSelected = !!($event);
   }
 
-  displayCustomer(customer?: Customer): string | undefined {
-    return customer ? customer.name : undefined;
-  }
+
 
 }

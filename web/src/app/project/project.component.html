@@ -1,7 +1,4 @@
-  <button mat-icon-button color="primary" [disabled]="disableAddCustomer">
-    <mat-icon aria-label="new customer" (click)="onNewCustomerClick()">add_circle</mat-icon>
-  </button><ng-select [items]="customers" [(ngModel)]="selectedCustomer" bindLabel="name"
-  placeholder="Select customer: " (change)="onCustomerSelectionChanged($event)"></ng-select>
+
 
 <form #projectForm="ngForm" name="projectForm" *ngIf="customerSelected">
   <mat-card>

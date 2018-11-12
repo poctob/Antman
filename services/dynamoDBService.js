@@ -75,7 +75,6 @@ module.exports = class DynamoDBService {
         if(expressionAttributeNames) {
             params.ExpressionAttributeNames = expressionAttributeNames;
         }
-        ///console.log(params);
         
         let data = null;
         

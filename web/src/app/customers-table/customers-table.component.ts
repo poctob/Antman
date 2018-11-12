@@ -1,10 +1,11 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
-import { CustomerService } from '../customer.service';
-import { BehaviorSubject, of } from 'rxjs';
+import { CustomerService } from '../services/customer.service';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
-import { CustomersTableItem } from './customers-table-datasource';
 import { CustomerComponent } from '../customer/customer.component';
+import { ProjectsTableComponent } from '../projects-table/projects-table.component';
+import { CustomersTableItem } from '../models/customer';
 
 @Component({
   selector: 'app-customers-table',
@@ -17,8 +18,10 @@ export class CustomersTableComponent {
   @ViewChild('input') input: ElementRef;
   dataSource = new MatTableDataSource();
   resultsLength = 0;
+  displayProjects: boolean = false;
+  projectsComponent: ProjectsTableComponent;
+
   private loadingData = new BehaviorSubject<boolean>(false);
-  private currentCustomerTableItem: CustomersTableItem = null;
 
   displayedColumns = ['deleteCustomer', 'editCustomer', 'name', 'email', 'phone'];
 
@@ -28,10 +31,13 @@ export class CustomersTableComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.loadingData.next(true);
+   
     this.customerService.getCustomers().pipe(
       catchError(() => of([])),
       finalize(() => this.loadingData.next(false))
-    ).subscribe(data => this.dataSource.data = data);
+    ).subscribe((data) => {
+      this.dataSource.data = data;
+    });
   }
 
   applyFilter(filterValue: string) {
@@ -41,7 +47,6 @@ export class CustomersTableComponent {
   }
 
   editCustomer(row: CustomersTableItem) {
-    this.currentCustomerTableItem = row;
     let currentRow = Object.assign({}, row);
 
     const dialogRef = this.customerDialog.open(CustomerComponent, {
@@ -78,7 +83,6 @@ export class CustomersTableComponent {
     this.dataSource.data = data;
   }
 
-
   onNewCustomerClick(): void {
     const dialogRef = this.customerDialog.open(CustomerComponent, {
       width: '250px',
@@ -97,6 +101,9 @@ export class CustomersTableComponent {
           });
       }
     });
+  }
 
+  showProjects(row: CustomersTableItem) {
+   
   }
 }

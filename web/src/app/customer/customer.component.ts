@@ -1,8 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
-import { Customer } from '../models/customer';
-import { CustomersTableItem } from '../customers-table/customers-table-datasource';
+import { CustomersTableItem } from '../models/customer';
 
 @Component({
   selector: 'app-customer',

@@ -4,7 +4,7 @@ const DynamoDBService = require('../services/dynamoDBService');
 
 const service = new DynamoDBService();
 
-module.exports = class CustomerController {
+module.exports = class ProjectController {
 
   constructor() {
     this.create = this.create.bind(this);
@@ -15,9 +15,7 @@ module.exports = class CustomerController {
   async getAll(req, res, next) {
     try {
 
-      // let data = await service.getAll('XTCustomers', 'CustomerId, #n', { '#n': 'name' });
-      let data = await service.getAll('XTCustomers');
-      //console.log(data);
+      let data = await service.getAll('XTCustomers', 'CustomerId, #name, projects', {'#name': "name"});
       res.send(data.Items);
     }
     catch (err) {

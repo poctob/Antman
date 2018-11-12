@@ -3,9 +3,9 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#" matTooltip="Customers"><mat-icon aria-label="customer">face</mat-icon></a>
-      <a mat-list-item href="#" matTooltip="Projects"><mat-icon aria-label="project">folder</mat-icon></a>
-      <a mat-list-item href="#" matTooltip="Settings"><mat-icon aria-label="settings">settings</mat-icon></a>
+      <a mat-list-item routerLink="/customers" routerLinkActive="active" matTooltip="Customers"><mat-icon aria-label="customer">face</mat-icon></a>
+      <a mat-list-item routerLink="/projects" matTooltip="Projects"><mat-icon aria-label="project">folder</mat-icon></a>
+      <a mat-list-item routerLink="/settings" matTooltip="Settings"><mat-icon aria-label="settings">settings</mat-icon></a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -15,6 +15,6 @@
       </button>
       <span>XT Project Manager</span>
     </mat-toolbar>
-    <app-customers-table></app-customers-table>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

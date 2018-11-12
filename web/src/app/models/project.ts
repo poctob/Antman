@@ -1,21 +1,29 @@
-export class Project {
-    constructor(
-        public id: number,
-        public type: string,
-        public documentType: string,
-        public received: Date,
-        public started: Date,
-        public mailed: Date,
-        public status: string,
-        public price: number,
-        public postage: number,
-        public discount: number,
-        public total: number,
-        public invoiceDate: Date,
-        public paymentDate: Date,
-        public paymentType: string,
-        public translator: string,
-        public sourceLanguage: string,
-        public destinationLanguage: string
-    ) {}
+export interface ProjectsTableItem {
+  CustomerId: number,
+  CustomerName: string,
+  ProjectId: number,
+  type: string,
+  documentType: string,
+  received: Date,
+  started: Date,
+  mailed: Date,
+  status: string,
+  price: number,
+  postage: number,
+  discount: number,
+  total: number,
+  invoiceDate: Date,
+  paymentDate: Date,
+  paymentType: string,
+  translator: string,
+  sourceLanguage: string,
+  destinationLanguage: string
 }
+
+export interface CustomerProjects {
+    CustomerId: number,
+    name: string,
+    projects: ProjectsTableItem[]
+}
+  
+  

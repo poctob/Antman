@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var processRouter = require('./routes/process');
 var customerRouter = require('./routes/customer');
+var projectRouter = require('./routes/project');
 
 var app = express();
 
@@ -20,5 +21,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/process', processRouter);
 app.use('/api/customer', customerRouter);
+app.use('/api/project', projectRouter);
 
 module.exports = app;

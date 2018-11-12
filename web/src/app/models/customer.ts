@@ -1,9 +1,7 @@
-export class Customer {
-    constructor(
-        public CustomerId: number,
-        public name: string,
-        public isActive: boolean = true,
-        public email?: string,
-        public phone?: string
-    ) {}
+export interface CustomersTableItem {
+  CustomerId: string,
+  name: string,
+  isActive: boolean,
+  email?: string,
+  phone?: string
 }
