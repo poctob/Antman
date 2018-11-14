@@ -1,10 +1,11 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { of, Observable } from 'rxjs';
 import { CustomerProjects, ProjectsTableItem } from '../models/project';
 import { ProjectService } from '../services/project.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { ProjectComponent } from '../project/project.component';
 
 @Component({
   selector: 'app-projects-table',
@@ -21,9 +22,9 @@ export class ProjectsTableComponent implements OnInit {
 
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['ProjectId' , 'CustomerName', 'Type', 'DocumentType'];
+  displayedColumns = ['deleteProject', 'editProject', 'ProjectId', 'CustomerName', 'Type', 'DocumentType', 'IsActive'];
 
-  constructor(private projectService: ProjectService, private route: ActivatedRoute) {
+  constructor(private projectService: ProjectService, private route: ActivatedRoute, public projectDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -64,4 +65,30 @@ export class ProjectsTableComponent implements OnInit {
     return transformedData;
   }
 
+  editProject(row: ProjectsTableItem) {
+    console.log(row);
+    let currentRow = Object.assign({}, row);
+
+    const dialogRef = this.projectDialog.open(ProjectComponent, {
+      width: '750px',
+      hasBackdrop: false,
+      data: currentRow
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.projectService.updateProject(currentRow)
+          .subscribe(data => this.projectDataSource.data = this.transformDataToProjects(data));
+      }
+    })
+
+  }
+
+  deleteProject(row: ProjectsTableItem) {
+    let currentRow = Object.assign({}, row);
+    currentRow.isActive = false;
+
+    this.projectService.updateProject(currentRow)
+          .subscribe(data => this.projectDataSource.data = this.transformDataToProjects(data));
+  }
 }

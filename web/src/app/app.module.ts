@@ -45,7 +45,7 @@ import { ProjectsTableComponent } from './projects-table/projects-table.componen
     MatPaginatorModule,
     MatSortModule
   ],
-  entryComponents: [CustomerComponent],
+  entryComponents: [CustomerComponent, ProjectComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

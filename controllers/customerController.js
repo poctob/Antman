@@ -10,6 +10,8 @@ module.exports = class CustomerController {
     this.create = this.create.bind(this);
     this.update = this.update.bind(this);
     this.sanitizeCustomer = this.sanitizeCustomer.bind(this);
+    this.getByCustomerId = this.getByCustomerId.bind(this);
+    this.doGetByCustomerId = this.doGetByCustomerId.bind(this);
   }
 
   async getAll(req, res, next) {
@@ -24,6 +26,14 @@ module.exports = class CustomerController {
       console.log('Error processing the request: ' + err);
       res.status(500).end();
     }
+  }
+
+  async getByCustomerId(req, res, next) {
+    let data = await this.doGetByCustomerId(req.params.customerId);
+    if (data)
+      res.send(data);
+    else
+      res.status(500).end();
   }
 
   async create(req, res, next) {
@@ -58,5 +68,18 @@ module.exports = class CustomerController {
 
   sanitizeCustomer(customer) {
     Object.keys(customer).forEach((key) => (customer[key] == null) && delete customer[key]);
+  }
+
+  async doGetByCustomerId(customerId) {
+    try {
+      let data = await service.getAll('XTCustomers', null, null,
+         'CustomerId = :customerId', { ':customerId': customerId });
+
+      return data.Items;
+    }
+    catch (err) {
+      console.log('Error processing the request: ' + err);
+      return null;
+    }
   }
 }

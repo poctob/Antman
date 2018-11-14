@@ -1,4 +1,5 @@
 export interface ProjectsTableItem {
+  isActive: boolean;
   CustomerId: number,
   CustomerName: string,
   ProjectId: number,
